@@ -46,8 +46,7 @@ public final class InsertCommand implements Command {
                 .author(argments.get(2))
                 .publisher(argments.get(3))
                 .publicationDate(argments.get(4))
-                .author(argments.get(5))
-                .price(argments.get(6))
+                .price(argments.get(5))
                 .build();
         result.getErrMesages().addAll(book.validate().getErrMesages());
 
