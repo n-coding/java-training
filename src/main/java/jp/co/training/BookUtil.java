@@ -1,6 +1,10 @@
 package jp.co.training;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class BookUtil {
 
@@ -15,15 +19,43 @@ public class BookUtil {
      * @param target :
      * @param min
      * @param max
-     * @param targetName
      * @return
      */
-    public static Optional<String> checkRange(String target, int min, int max, String targetName) {
+    public static Optional<String> checkLength(String target, int min, int max) {
         if (target.length() < min) {
-            return Optional.of(targetName + "of size: min is " + min + ". but your input is " + target.length() + ".");
+            return Optional.of("the length must be " + min + " or more. but actual is " + target.length() + ".");
         } else if (target.length() > max) {
-            return Optional.of(targetName + "of size: max is " + max + ". but your input is " + target.length() + ".");
+            return Optional.of("the length must be " + max + " or less. but actual is " + target.length() + ".");
         }
         return Optional.empty();
     }
+
+    public static Optional<String> checkDatePattern(String target, String pattern) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(pattern);
+        try {
+            LocalDate.parse(target, df);
+        } catch (DateTimeParseException e) {
+            return Optional.of("Invalid Pattern. valid pattern is " + pattern + ".");
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<String> checkNumber(String target) {
+        if (!isNumber(target)) {
+            return Optional.of("It is not a numerical format.");
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * valueが数値文字列の場合、または空文字の場合はtrueを返す
+     *
+     * @param value
+     * @return
+     */
+    private static boolean isNumber(String value) {
+        return Pattern.compile("^[0-9]*$").matcher(value).matches();
+//        return false;
+    }
+
 }

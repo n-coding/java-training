@@ -13,6 +13,7 @@ public final class Const {
     public static final int MAX_AUTHOR = 30;
     public static final int MAX_PUBLISHER = 30;
     public static final int MAX_PRICE = 9;
+    public static final String DATE_PATTERN = "yyyyMMdd";
 
     //外部ファイルによる設定が可能な定数
     public static final String PROMPT;

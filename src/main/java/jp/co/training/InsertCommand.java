@@ -41,12 +41,12 @@ public final class InsertCommand implements Command {
         if (argments.size() != 6) {
             result.addErrMessage("SyntaxError. The number of arguments does not match.");
         }
-        book = new Book.Builder().isbn(argments.get(0))
-                .bookName(argments.get(1))
-                .author(argments.get(2))
-                .publisher(argments.get(3))
-                .publicationDate(argments.get(4))
-                .price(argments.get(5))
+        book = new Book.Builder().isbn(argments.get(0).trim())
+                .bookName(argments.get(1).trim())
+                .author(argments.get(2).trim())
+                .publisher(argments.get(3).trim())
+                .publicationDate(argments.get(4).trim())
+                .price(argments.get(5).trim())
                 .build();
         result.getErrMesages().addAll(book.validate().getErrMesages());
 
