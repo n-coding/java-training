@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static jp.co.training.Const.SAVE_FILE;
 
 public final class InsertCommand implements Command {
+
     private final Result result = new Result();
 
     private List<String> argments;
@@ -31,10 +30,9 @@ public final class InsertCommand implements Command {
             bw.write(book.getPublisher());
             bw.write(book.getPublicationDate());
             bw.write(book.getPrice());
-
             bw.newLine();
         } catch (IOException ex) {
-            Logger.getLogger(InsertCommand.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(SAVE_FILE + ": cannot open.");
         }
         System.out.println("inserted.");
         return result;
@@ -45,7 +43,7 @@ public final class InsertCommand implements Command {
         //パラメータ数チェック
         if (argments.size() != 6) {
             result.addErrMessage("SyntaxError. The number of arguments does not match.");
-            result.setCode(StatusCode.CONTINUE);
+            result.setCode(Status.CONTINUE);
             return result;
         }
         //書籍情報のチェック
@@ -58,7 +56,7 @@ public final class InsertCommand implements Command {
                 .build();
         result.getMesages().addAll(book.validate().getMesages());
         if (!result.getMesages().isEmpty()) {
-            result.setCode(StatusCode.CONTINUE);
+            result.setCode(Status.CONTINUE);
         }
 
         return result;

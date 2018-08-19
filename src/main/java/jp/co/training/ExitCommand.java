@@ -10,7 +10,7 @@ public final class ExitCommand implements Command {
 
     @Override
     public Result execute() {
-        result.setCode(StatusCode.BREAK);
+        result.setCode(Status.BREAK);
         return result;
     }
 

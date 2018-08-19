@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Result {
 
-    private StatusCode code = StatusCode.KEEP;
+    private Status code = Status.KEEP;
     private final List<String> mesages = new ArrayList<>();
 
     public List<String> getMesages() {
@@ -16,11 +16,11 @@ public class Result {
         mesages.add(msg);
     }
 
-    public StatusCode getCode() {
+    public Status getCode() {
         return code;
     }
 
-    public void setCode(StatusCode code) {
+    public void setCode(Status code) {
         this.code = code;
     }
 

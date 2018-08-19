@@ -3,6 +3,7 @@ package jp.co.training;
 import java.util.List;
 
 public final class InvalidCommand implements Command {
+
     private final Result result = new Result();
 
     @Override
@@ -11,12 +12,12 @@ public final class InvalidCommand implements Command {
 
     @Override
     public Result execute() {
-        return result;
+        throw new UnsupportedOperationException("Execute invalid Command.");
     }
 
     @Override
     public Result validate() {
-        result.setCode(StatusCode.CONTINUE);
+        result.setCode(Status.CONTINUE);
         result.addErrMessage("Invalid Command.");
         return result;
     }

@@ -1,6 +1,6 @@
 package jp.co.training;
 
-public enum StatusCode {
+public enum Status {
 
     KEEP,//そのまま継続
     CONTINUE,//ループの最初に戻る
