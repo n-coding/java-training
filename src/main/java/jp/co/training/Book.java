@@ -1,5 +1,6 @@
 package jp.co.training;
 
+import static jp.co.training.Const.DATE_PATTERN;
 import static jp.co.training.Const.MAX_AUTHOR;
 import static jp.co.training.Const.MAX_BOOK_NAME;
 import static jp.co.training.Const.MAX_ISBN;
@@ -15,18 +16,27 @@ public class Book {
     private final String publicationDate;
     private final String price;
 
-
     public Result validate() {
         Result result = new Result();
 
-        //最大最小チェック
-        BookUtil.checkRange(isbn, 1, MAX_ISBN, "ISBM").ifPresent(msg -> result.addErrMessage(msg));
-        BookUtil.checkRange(bookName, 1, MAX_BOOK_NAME, "BOOK_NAME").ifPresent(msg -> result.addErrMessage(msg));
-        BookUtil.checkRange(author, 1, MAX_AUTHOR, "AUTHOR").ifPresent(msg -> result.addErrMessage(msg));
-        BookUtil.checkRange(publisher, 1, MAX_PUBLISHER, "PUBLISHER").ifPresent(msg -> result.addErrMessage(msg));
-        BookUtil.checkRange(price, 1, MAX_PRICE, "PRICE").ifPresent(msg -> result.addErrMessage(msg));
+        //isbn
+        BookUtil.checkLength(isbn, 1, MAX_ISBN).ifPresent(msg -> result.addErrMessage("ISBM:" + msg));
 
+        //bookName
+        BookUtil.checkLength(bookName, 1, MAX_BOOK_NAME).ifPresent(msg -> result.addErrMessage("BOOK_NAME:" + msg));
 
+        //author
+        BookUtil.checkLength(author, 1, MAX_AUTHOR).ifPresent(msg -> result.addErrMessage("AUTHOR" + msg));
+
+        //publisher
+        BookUtil.checkLength(publisher, 1, MAX_PUBLISHER).ifPresent(msg -> result.addErrMessage("PUBLISHER:" + msg));
+
+        //price
+        BookUtil.checkLength(price, 1, MAX_PRICE).ifPresent(msg -> result.addErrMessage("PRICE:" + msg));
+        BookUtil.checkNumber(price).ifPresent(msg -> result.addErrMessage("PRICE:" + msg));
+
+        //publicationDate
+        BookUtil.checkDatePattern(publicationDate, DATE_PATTERN).ifPresent(msg -> result.addErrMessage("PUBLICATION_DATE:" + msg));
 
         return result;
     }
@@ -65,6 +75,7 @@ public class Book {
     }
 
     public static class Builder {
+
         private String isbn;
         private String bookName;
         private String author;

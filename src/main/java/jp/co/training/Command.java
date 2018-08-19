@@ -6,7 +6,7 @@ public interface Command {
 
     void setArgments(List<String> argments);
 
-    void execute();
+    Result execute();
 
     Result validate();
 }
