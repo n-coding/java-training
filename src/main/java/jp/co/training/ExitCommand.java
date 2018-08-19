@@ -4,10 +4,14 @@ import java.util.List;
 
 public final class ExitCommand implements Command {
 
+    private final Result result = new Result();
+
     private List<String> argments;
+
     @Override
-    public void execute() {
-        System.exit(0);
+    public Result execute() {
+        result.setCode(StatusCode.BREAK);
+        return result;
     }
 
     @Override
@@ -17,7 +21,6 @@ public final class ExitCommand implements Command {
 
     @Override
     public Result validate() {
-        Result result = new Result();
         //パラメータ数
         if (argments != null && !argments.isEmpty()) {
             if (argments.size() == 1 && argments.get(0).trim().equals("")) {

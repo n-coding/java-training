@@ -5,13 +5,23 @@ import java.util.List;
 
 public class Result {
 
-    private final List<String> errMesages = new ArrayList<>();
+    private StatusCode code = StatusCode.KEEP;
+    private final List<String> mesages = new ArrayList<>();
 
-    public List<String> getErrMesages() {
-        return errMesages;
+    public List<String> getMesages() {
+        return mesages;
     }
 
     public void addErrMessage(String msg) {
-        errMesages.add(msg);
+        mesages.add(msg);
     }
+
+    public StatusCode getCode() {
+        return code;
+    }
+
+    public void setCode(StatusCode code) {
+        this.code = code;
+    }
+
 }
