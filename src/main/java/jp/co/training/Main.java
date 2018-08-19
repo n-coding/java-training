@@ -14,7 +14,7 @@ public final class Main {
         try (Scanner scan = new Scanner(System.in)) {
             while (true) {
                 System.out.print(PROMPT);
-                Command command = CommandFactory.createCommand(scan.next());
+                Command command = CommandFactory.createCommand(scan.next().toLowerCase());
                 List<String> argments = Arrays.asList(scan.nextLine().split(DELIMITER));
 
                 command.setArgments(argments);
