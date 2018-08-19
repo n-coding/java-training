@@ -5,23 +5,23 @@ import java.util.List;
 
 public class Result {
 
-    private Status code = Status.KEEP;
+    private boolean exit = false;
     private final List<String> mesages = new ArrayList<>();
 
     public List<String> getMesages() {
         return mesages;
     }
 
-    public void addErrMessage(String msg) {
+    public void addMessage(String msg) {
         mesages.add(msg);
     }
 
-    public Status getCode() {
-        return code;
+    public boolean isExit() {
+        return exit;
     }
 
-    public void setCode(Status code) {
-        this.code = code;
+    public void setExit(boolean exit) {
+        this.exit = exit;
     }
 
 }

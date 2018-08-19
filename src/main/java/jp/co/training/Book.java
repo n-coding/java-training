@@ -20,23 +20,23 @@ public class Book {
         Result result = new Result();
 
         //isbn
-        BookUtil.checkLength(isbn, 1, MAX_ISBN).ifPresent(msg -> result.addErrMessage("ISBM:" + msg));
+        BookUtil.checkLength(isbn, 1, MAX_ISBN).ifPresent(msg -> result.addMessage("ISBM:" + msg));
 
         //bookName
-        BookUtil.checkLength(bookName, 1, MAX_BOOK_NAME).ifPresent(msg -> result.addErrMessage("BOOK_NAME:" + msg));
+        BookUtil.checkLength(bookName, 1, MAX_BOOK_NAME).ifPresent(msg -> result.addMessage("BOOK_NAME:" + msg));
 
         //author
-        BookUtil.checkLength(author, 1, MAX_AUTHOR).ifPresent(msg -> result.addErrMessage("AUTHOR" + msg));
+        BookUtil.checkLength(author, 1, MAX_AUTHOR).ifPresent(msg -> result.addMessage("AUTHOR" + msg));
 
         //publisher
-        BookUtil.checkLength(publisher, 1, MAX_PUBLISHER).ifPresent(msg -> result.addErrMessage("PUBLISHER:" + msg));
+        BookUtil.checkLength(publisher, 1, MAX_PUBLISHER).ifPresent(msg -> result.addMessage("PUBLISHER:" + msg));
 
         //price
-        BookUtil.checkLength(price, 1, MAX_PRICE).ifPresent(msg -> result.addErrMessage("PRICE:" + msg));
-        BookUtil.checkNumber(price).ifPresent(msg -> result.addErrMessage("PRICE:" + msg));
+        BookUtil.checkLength(price, 1, MAX_PRICE).ifPresent(msg -> result.addMessage("PRICE:" + msg));
+        BookUtil.checkNumber(price).ifPresent(msg -> result.addMessage("PRICE:" + msg));
 
         //publicationDate
-        BookUtil.checkDatePattern(publicationDate, DATE_PATTERN).ifPresent(msg -> result.addErrMessage("PUBLICATION_DATE:" + msg));
+        BookUtil.checkDatePattern(publicationDate, DATE_PATTERN).ifPresent(msg -> result.addMessage("PUBLICATION_DATE:" + msg));
 
         return result;
     }

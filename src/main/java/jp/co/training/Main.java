@@ -2,8 +2,6 @@ package jp.co.training;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 import static jp.co.training.Const.DELIMITER;
 import static jp.co.training.Const.PROMPT;
@@ -15,28 +13,15 @@ public final class Main {
             while (true) {
                 System.out.print(PROMPT);
                 Command command = CommandFactory.createCommand(scan.next().toLowerCase());
-                List<String> argments = Arrays.asList(scan.nextLine().split(DELIMITER));
-                command.setArgments(argments);
-                if (validate(command)) {
-                    continue;
-                }
-                if (execute(command)) {
+                command.setArgments(scan.nextLine().split(DELIMITER));
+
+                Result result = command.execute();
+                outputMessages(result);
+                if (result != null && result.isExit()) {
                     break;
                 }
             }
         }
-    }
-
-    private static boolean execute(Command command) {
-        Result result = command.execute();
-        outputMessages(result);
-        return result != null && result.getCode() == Status.BREAK;
-    }
-
-    private static boolean validate(Command command) {
-        Result result = command.validate();
-        outputMessages(result);
-        return result != null && result.getCode() == Status.CONTINUE;
     }
 
     private static void outputMessages(Result result) {
