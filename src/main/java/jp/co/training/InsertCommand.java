@@ -25,9 +25,13 @@ public final class InsertCommand implements Command {
     @Override
     public Result execute() {
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(SAVE_FILE, true), StandardCharsets.UTF_8))) {
-            for (int i = 0, size = argments.size(); i < size; i++) {
-                bw.write((i == 0 ? "" : ",") + argments.get(i).trim());
-            }
+            bw.write(book.getIsbn());
+            bw.write(book.getBookName());
+            bw.write(book.getAuthor());
+            bw.write(book.getPublisher());
+            bw.write(book.getPublicationDate());
+            bw.write(book.getPrice());
+
             bw.newLine();
         } catch (IOException ex) {
             Logger.getLogger(InsertCommand.class.getName()).log(Level.SEVERE, null, ex);
