@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import static jp.co.training.Const.DELIMITER;
+import static jp.co.training.Const.END_MESSAGE;
 import static jp.co.training.Const.PROMPT;
 
 public final class Main {
@@ -18,14 +19,27 @@ public final class Main {
                 List<String> argments = Arrays.asList(scan.nextLine().split(DELIMITER));
 
                 command.setArgments(argments);
-                Result result = command.validate();
-                if (result != null && result.getErrMesages().size() > 0) {
-                    result.getErrMesages().stream().forEach(message -> {
-                        System.err.println(message);
-                    });
+                if (validate(command)) {
+                    continue;
                 }
-                command.execute();
+                if (command.execute().getCode() == StatusCode.BREAK) {
+                    System.out.println(END_MESSAGE);
+                    break;
+                }
             }
         }
+    }
+
+    private static boolean validate(Command command) {
+        Result result = command.validate();
+        if (result != null && result.getMesages().size() > 0) {
+            result.getMesages().stream().forEach(message -> {
+                System.out.println(message);
+            });
+        }
+        if (result != null && result.getCode() == StatusCode.CONTINUE) {
+            return true;
+        }
+        return false;
     }
 }

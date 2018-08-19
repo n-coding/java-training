@@ -17,11 +17,13 @@ public final class Const {
 
     //外部ファイルによる設定が可能な定数
     public static final String PROMPT;
+    public static final String END_MESSAGE;
     public static final String DELIMITER;
     public static final String SAVE_FILE;
 
     //外部ファイルの設定ファイルのキー
     private static final String PROMPT_KEY = "prompt";
+    private static final String END_MESSAGE_KEY = "end.message";
     private static final String DELIMITER_KEY = "delimiter";
     private static final String SAVE_FILE_KEY = "save.file";
 
@@ -30,6 +32,7 @@ public final class Const {
         PROMPT = (rb == null || !rb.containsKey(PROMPT_KEY)) ? "books>" : rb.getString(PROMPT_KEY);
         DELIMITER = (rb == null || !rb.containsKey(DELIMITER_KEY)) ? "," : rb.getString(DELIMITER_KEY);
         SAVE_FILE = (rb == null || !rb.containsKey(SAVE_FILE_KEY)) ? "savefile" : rb.getString(SAVE_FILE_KEY);
+        END_MESSAGE = (rb == null || !rb.containsKey(END_MESSAGE_KEY)) ? "bye." : rb.getString(END_MESSAGE_KEY);
     }
 
     private static ResourceBundle loadResource() {
