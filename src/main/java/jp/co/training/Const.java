@@ -17,15 +17,15 @@ public final class Const {
 
     //外部ファイルによる設定が可能な定数
     public static final String PROMPT;
-    public static final String END_MESSAGE;
     public static final String DELIMITER;
     public static final String SAVE_FILE;
+    public static final String END_MESSAGE;
 
     //外部ファイルの設定ファイルのキー
     private static final String PROMPT_KEY = "prompt";
-    private static final String END_MESSAGE_KEY = "end.message";
     private static final String DELIMITER_KEY = "delimiter";
     private static final String SAVE_FILE_KEY = "save.file";
+    private static final String END_MESSAGE_KEY = "end.message";
 
     static {
         ResourceBundle rb = loadResource();
