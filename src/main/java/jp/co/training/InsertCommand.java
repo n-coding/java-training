@@ -5,25 +5,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import static jp.co.training.Const.INSERT;
 import static jp.co.training.Const.SAVE_FILE;
 
-public final class InsertCommand implements Command {
+public final class InsertCommand extends Command {
 
-    private final Result result = new Result();
-    private String[] argments;
     private Book book;
 
     @Override
-    public void setArgments(String[] argments) {
-        this.argments = argments;
-    }
-
-    @Override
-    public Result execute() {
-        if (!validate()) {
-            return result;
+    public Result execute(String command, String[] argments) {
+        result = new Result();
+        if (command.equals(INSERT)) {
+            if (!validate(argments)) {
+                return result;
+            }
+            return createBook();
         }
-        return createBook();
+        return next.execute(command, argments);
     }
 
     private Result createBook() {
@@ -47,7 +45,7 @@ public final class InsertCommand implements Command {
     /*
      検証の結果OKならtrueを返す。それ以外はfalseを返す
      */
-    private boolean validate() {
+    private boolean validate(String[] argments) {
         //パラメータ数チェック
         if (argments.length != 6) {
             result.addMessage("SyntaxError. The number of arguments does not match.");

@@ -1,17 +1,17 @@
 package jp.co.training;
 
-public final class ExitCommand implements Command {
+import static jp.co.training.Const.EXIT;
 
-    private final Result result = new Result();
-
-    @Override
-    public Result execute() {
-        result.setExit(true);
-        return result;
-    }
+public final class ExitCommand extends Command {
 
     @Override
-    public void setArgments(String[] argments) {
+    public Result execute(String command, String[] argments) {
+        result = new Result();
+        if (command.equals(EXIT)) {
+            result.setExit(true);
+            return result;
+        }
+        return next.execute(command, argments);
     }
 
 }
