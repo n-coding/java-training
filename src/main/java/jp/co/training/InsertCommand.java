@@ -1,5 +1,6 @@
 package jp.co.training;
 
+import static jp.co.training.Const.DELIMITER;
 import static jp.co.training.Const.SAVE_FILE;
 
 import java.io.BufferedWriter;
@@ -28,14 +29,13 @@ public final class InsertCommand extends Command {
 	}
 
 	private Result createBook() {
-		try (BufferedWriter bw = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(SAVE_FILE, true), StandardCharsets.UTF_8))) {
-			bw.write(book.getIsbn());
-			bw.write(book.getBookName());
-			bw.write(book.getAuthor());
-			bw.write(book.getPublisher());
-			bw.write(book.getPublicationDate());
-			bw.write(book.getPrice());
+		try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(SAVE_FILE, true), StandardCharsets.UTF_8))) {
+			bw.write(book.getIsbn().trim() + DELIMITER);
+			bw.write(book.getBookName().trim() + DELIMITER);
+			bw.write(book.getAuthor().trim() + DELIMITER);
+			bw.write(book.getPublisher().trim() + DELIMITER);
+			bw.write(book.getPublicationDate().trim() + DELIMITER);
+			bw.write(book.getPrice().trim() + DELIMITER);
 			bw.newLine();
 		} catch (IOException ex) {
 			result.addMessage(SAVE_FILE + ": cannot open.");

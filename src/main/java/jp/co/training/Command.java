@@ -12,7 +12,7 @@ public abstract class Command {
 
 	public Result execute(String command, String[] argments) {
 		if (command.equals(name)) {
-			executeCommand(command, argments);
+			return executeCommand(command, argments);
 		} else if (next != null) {
 			return next.execute(command, argments);
 		}
