@@ -7,6 +7,7 @@ import static jp.co.training.Const.PROMPT;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public final class Main {
@@ -17,7 +18,12 @@ public final class Main {
 		try (Scanner scan = new Scanner(System.in)) {
 			while (true) {
 				System.out.print(PROMPT);
-				Result result = command.execute(scan.next().toLowerCase(), scan.nextLine().split(DELIMITER));
+				String inputCommand = scan.next().toLowerCase();
+				String[] argments = scan.nextLine().split(DELIMITER);
+				argments = (String[]) Arrays.stream(argments).map(e -> e.trim()).toArray();
+
+				// コマンド実行
+				Result result = command.execute(inputCommand, argments);
 				outputMessages(result);
 				if (result != null && result.isExit()) {
 					break;
