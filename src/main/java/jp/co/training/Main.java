@@ -1,9 +1,8 @@
 package jp.co.training;
 
-import static jp.co.training.Const.DELIMITER;
+import static jp.co.training.Const.CONFIG_FILE;
 import static jp.co.training.Const.EXIT;
 import static jp.co.training.Const.INSERT;
-import static jp.co.training.Const.PROMPT;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,15 +11,19 @@ import java.util.Scanner;
 
 public final class Main {
 
+	public static Config config;
+
 	public static void main(String... args) throws FileNotFoundException, IOException {
+
+		config = new Config().load(args.length > 0 && args[0] != null ? args[0] : CONFIG_FILE);
 		Command command = new InsertCommand(INSERT);
 		command.setNext(new ExitCommand(EXIT));
 		try (Scanner scan = new Scanner(System.in)) {
 			while (true) {
-				System.out.print(PROMPT);
+				System.out.print(config.prompt);
 				String inputCommand = scan.next().toLowerCase();
-				String[] argments = scan.nextLine().split(DELIMITER);
-				argments = (String[]) Arrays.stream(argments).map(e -> e.trim()).toArray();
+				String[] argments = scan.nextLine().split(config.delimiter);
+				argments = (String[]) Arrays.stream(argments).map(e -> e.trim()).toArray(String[]::new);
 
 				// コマンド実行
 				Result result = command.execute(inputCommand, argments);

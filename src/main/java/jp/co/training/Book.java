@@ -1,12 +1,12 @@
 package jp.co.training;
 
 import static jp.co.training.Const.DATE_PATTERN;
-import static jp.co.training.Const.DELIMITER;
 import static jp.co.training.Const.MAX_AUTHOR;
 import static jp.co.training.Const.MAX_BOOK_NAME;
 import static jp.co.training.Const.MAX_ISBN;
 import static jp.co.training.Const.MAX_PRICE;
 import static jp.co.training.Const.MAX_PUBLISHER;
+import static jp.co.training.Main.config;
 
 public class Book {
 
@@ -123,8 +123,8 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return String.join(this.isbn, this.bookName, this.author, this.publisher, this.publicationDate, this.price,
-				DELIMITER);
+		return String.join(config.delimiter, this.isbn, this.bookName, this.author, this.publisher,
+				this.publicationDate, this.price);
 
 	}
 }

@@ -1,10 +1,8 @@
 package jp.co.training;
 
 import static jp.co.training.Const.DATE_TIME_PATTERN;
-import static jp.co.training.Const.DELIMITER;
 import static jp.co.training.Const.ID_LENGTH;
-import static jp.co.training.Const.SAVE_FILE;
-import static jp.co.training.Const.USER_NAME;
+import static jp.co.training.Main.config;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -37,18 +35,18 @@ public final class InsertCommand extends Command {
 
 		String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
 
-		String output = String.join(BookUtil.generateID(ID_LENGTH),
+		String output = String.join(config.delimiter,
+				BookUtil.generateID(ID_LENGTH),
 				book.toString(),
-				USER_NAME, today,
-				USER_NAME, today,
-				DELIMITER);
+				config.userName, today,
+				config.userName, today);
 
 		try (BufferedWriter bw = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(SAVE_FILE, true), StandardCharsets.UTF_8))) {
+				new OutputStreamWriter(new FileOutputStream(config.saveFile, true), StandardCharsets.UTF_8))) {
 			bw.write(output);
 			bw.newLine();
 		} catch (IOException ex) {
-			result.addMessage(SAVE_FILE + ": cannot open.");
+			result.addMessage(config.saveFile + ": cannot open.");
 			result.setExit(true);
 			return result;
 		}
