@@ -1,8 +1,7 @@
 package jp.co.training;
 
-import static jp.co.training.Const.DATE_TIME_PATTERN;
-import static jp.co.training.Const.ID_LENGTH;
-import static jp.co.training.Main.config;
+import static jp.co.training.Const.*;
+import static jp.co.training.Main.*;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -14,66 +13,66 @@ import java.time.format.DateTimeFormatter;
 
 public final class InsertCommand extends Command {
 
-	private Result result;
+    private Result result;
 
-	private Book book;
+    private Book book;
 
-	public InsertCommand(String name) {
-		super(name);
-	}
+    public InsertCommand(String name) {
+        super(name);
+    }
 
-	@Override
-	public Result executeCommand(String command, String[] argments) {
-		result = new Result();
-		if (!validate(argments)) {
-			return result;
-		}
-		return createBook();
-	}
+    @Override
+    public Result executeCommand(String command, String[] argments) {
+        result = new Result();
+        if (!validate(argments)) {
+            return result;
+        }
+        return createBook();
+    }
 
-	private Result createBook() {
+    private Result createBook() {
 
-		String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
+        String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
 
-		String output = String.join(config.delimiter,
-				BookUtil.generateID(ID_LENGTH),
-				book.toString(),
-				config.userName, today,
-				config.userName, today);
+        String output = String.join(config.delimiter,
+                BookUtil.generateID(ID_LENGTH),
+                book.toString(),
+                config.userName, today,
+                config.userName, today);
 
-		try (BufferedWriter bw = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(config.saveFile, true), StandardCharsets.UTF_8))) {
-			bw.write(output);
-			bw.newLine();
-		} catch (IOException ex) {
-			result.addMessage(config.saveFile + ": cannot open.");
-			result.setExit(true);
-			return result;
-		}
-		result.addMessage("inserted.");
-		return result;
-	}
+        try (BufferedWriter bw = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(config.saveFile, true), StandardCharsets.UTF_8))) {
+            bw.write(output);
+            bw.newLine();
+        } catch (IOException ex) {
+            result.addMessage(config.saveFile + ": cannot open.");
+            result.setExit(true);
+            return result;
+        }
+        result.addMessage("inserted.");
+        return result;
+    }
 
-	/*
-	 * 検証の結果OKならtrueを返す。それ以外はfalseを返す
-	 */
-	private boolean validate(String[] argments) {
-		// パラメータ数チェック
-		if (argments.length != 6) {
-			result.addMessage("SyntaxError. The number of arguments does not match.");
-			return false;
-		}
+    /*
+     * 検証の結果OKならtrueを返す。それ以外はfalseを返す
+     */
+    private boolean validate(String[] argments) {
+        // パラメータ数チェック
+        if (argments.length != 6) {
+            result.addMessage("SyntaxError. The number of arguments does not match.");
+            return false;
+        }
 
-		// 書籍情報のチェック
-		book = new Book.Builder()
-				.isbn(argments[0])
-				.bookName(argments[1])
-				.author(argments[2])
-				.publisher(argments[3])
-				.publicationDate(argments[4])
-				.price(argments[5]).build();
-		result.getMesages().addAll(book.validate().getMesages());
-		return result.getMesages().isEmpty();
-	}
+        // 書籍情報のチェック
+        book = new Book.Builder()
+                .isbn(argments[0])
+                .bookName(argments[1])
+                .author(argments[2])
+                .publisher(argments[3])
+                .publicationDate(argments[4])
+                .price(argments[5]).build();
+        result.getMesages().addAll(book.validate().getMesages());
+        return result.getMesages().isEmpty();
+    }
 
 }

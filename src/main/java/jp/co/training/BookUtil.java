@@ -15,16 +15,17 @@ public class BookUtil {
 	/**
 	 * 対象文字列が指定された最小文字数と最大文字数の範囲内であるかをチェックします<br>
 	 * 範囲内である場合はOptionalの中身はnullとなる<br>
-	 * 範囲外である場合はOptionalの中身は範囲外であることを示すメッセージとなる<br>
+	 * 範囲外である場合はOptionalの中身はエラーメッセージとなる<br>
 	 *
 	 * @param target
-	 *            :
 	 * @param min
 	 * @param max
 	 * @return
 	 */
 	public static Optional<String> checkLength(String target, int min, int max) {
-		if (target.length() < min) {
+		if (target == null) {
+			return Optional.of("the length must be " + min + " or more. but actual is null.");
+		} else if (target.length() < min) {
 			return Optional.of("the length must be " + min + " or more. but actual is " + target.length() + ".");
 		} else if (target.length() > max) {
 			return Optional.of("the length must be " + max + " or less. but actual is " + target.length() + ".");
