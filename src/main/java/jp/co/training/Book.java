@@ -5,6 +5,8 @@ import static jp.co.training.Main.*;
 
 public class Book {
 
+    private static final int NUMBER_OF_ITEMS = 6;
+
     private final String isbn;
     private final String bookName;
     private final String author;
@@ -71,6 +73,21 @@ public class Book {
         this.price = builder.price;
     }
 
+    public static Book createBook(String[] argments) throws BookException {
+        // パラメータ数チェック
+        if (argments.length != NUMBER_OF_ITEMS) {
+            throw new BookException("SyntaxError. The number of arguments does not match.", argments.length);
+        }
+
+        return new Book.Builder()
+                .isbn(argments[0])
+                .bookName(argments[1])
+                .author(argments[2])
+                .publisher(argments[3])
+                .publicationDate(argments[4])
+                .price(argments[5]).build();
+    }
+
     public static class Builder {
 
         private String isbn;
@@ -118,8 +135,12 @@ public class Book {
 
     @Override
     public String toString() {
-        return String.join(config.delimiter, this.isbn, this.bookName, this.author, this.publisher,
-                this.publicationDate, this.price);
-
+        return String.join(config.delimiter,
+                this.isbn,
+                this.bookName,
+                this.author,
+                this.publisher,
+                this.publicationDate,
+                this.price);
     }
 }

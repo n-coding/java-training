@@ -3,19 +3,15 @@ package jp.co.training;
 import static jp.co.training.Const.*;
 import static jp.co.training.Main.*;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public final class InsertCommand extends Command {
-
-    private Result result;
-
-    private Book book;
 
     public InsertCommand(String name) {
         super(name);
@@ -23,27 +19,43 @@ public final class InsertCommand extends Command {
 
     @Override
     public Result executeCommand(String command, String[] argments) {
-        result = new Result();
-        if (!validate(argments)) {
+
+        //Bookオブジェクト生成
+        Book book = null;
+        try {
+            book = Book.createBook(argments);
+        } catch (BookException e) {
+            Result result = new Result();
+            result.addMessage(e.getMessage());
             return result;
         }
-        return createBook();
+
+        // 書籍情報のチェック
+        Result result = book.validate();
+        if (!result.getMesages().isEmpty()) {
+            return result;
+        }
+
+        //書籍情報の登録
+        return insert(book);
     }
 
-    private Result createBook() {
-
+    private Result insert(Book book) {
+        Result result = new Result();
         String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
 
-        String output = String.join(config.delimiter,
-                BookUtil.generateID(ID_LENGTH),
-                book.toString(),
-                config.userName, today,
-                config.userName, today);
+        String output = new BookRecord.Builder()
+                .id(BookUtil.generateID(ID_LENGTH))
+                .book(book)
+                .createUser(config.userName)
+                .createdDate(today)
+                .updateUser(config.userName)
+                .updatedDate(today)
+                .build().toString();
 
-        try (BufferedWriter bw = new BufferedWriter(
-                new OutputStreamWriter(new FileOutputStream(config.saveFile, true), StandardCharsets.UTF_8))) {
-            bw.write(output);
-            bw.newLine();
+        try (PrintWriter writer = new PrintWriter(
+                Files.newBufferedWriter(Paths.get(config.saveFile), StandardCharsets.UTF_8))) {
+            writer.println(output);
         } catch (IOException ex) {
             result.addMessage(config.saveFile + ": cannot open.");
             result.setExit(true);
@@ -51,28 +63,6 @@ public final class InsertCommand extends Command {
         }
         result.addMessage("inserted.");
         return result;
-    }
-
-    /*
-     * 検証の結果OKならtrueを返す。それ以外はfalseを返す
-     */
-    private boolean validate(String[] argments) {
-        // パラメータ数チェック
-        if (argments.length != 6) {
-            result.addMessage("SyntaxError. The number of arguments does not match.");
-            return false;
-        }
-
-        // 書籍情報のチェック
-        book = new Book.Builder()
-                .isbn(argments[0])
-                .bookName(argments[1])
-                .author(argments[2])
-                .publisher(argments[3])
-                .publicationDate(argments[4])
-                .price(argments[5]).build();
-        result.getMesages().addAll(book.validate().getMesages());
-        return result.getMesages().isEmpty();
     }
 
 }
