@@ -22,6 +22,30 @@ public class BookRecord {
         this.updatedDate = builder.updatedDate;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
     public static BookRecord decode(String[] argments) throws BookException {
 
         // パラメータ数チェック
