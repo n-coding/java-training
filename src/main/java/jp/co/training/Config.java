@@ -19,24 +19,48 @@ public class Config {
     private static final String SAVE_FILE_KEY = "save.file";
     private static final String USER_NAME_KEY = "user.name";
 
+    ResourceBundle rbMessages;
+
+    //メッセージ定義ファイルのパス
+    private static final String MESSAGES_RESOURCE = "messages";
+
     public Config load(String path) {
-        ResourceBundle rb = null;
+        ResourceBundle rbProperties = null;
         try {
-            rb = ResourceBundle.getBundle(path);
+            rbProperties = ResourceBundle.getBundle(path);
         } catch (MissingResourceException e) {
             System.out.println("ERROR: cannnot find configfile.");
             System.exit(1);
         }
-        if (!rb.containsKey(USER_NAME_KEY)) {
+        if (!rbProperties.containsKey(USER_NAME_KEY)) {
             System.out.println("ERROR: you must define registrant in configfile.");
             System.exit(1);
         }
 
-        userName = rb.getString(USER_NAME_KEY);
-        prompt = (rb.containsKey(PROMPT_KEY)) ? rb.getString(PROMPT_KEY) : "books>";
-        delimiter = (rb.containsKey(DELIMITER_KEY)) ? rb.getString(DELIMITER_KEY) : ",";
-        saveFile = (rb.containsKey(SAVE_FILE_KEY)) ? rb.getString(DELIMITER_KEY) : "savefile";
-        endMessage = (rb.containsKey(END_MESSAGE_KEY)) ? rb.getString(END_MESSAGE_KEY) : "bye.";
+        try {
+            rbMessages = ResourceBundle.getBundle(MESSAGES_RESOURCE);
+        } catch (MissingResourceException e) {
+            System.out.println("ERROR: cannnot find message file.");
+            System.exit(1);
+        }
+
+        userName = rbProperties.getString(USER_NAME_KEY);
+        prompt = (rbProperties.containsKey(PROMPT_KEY)) ? rbProperties.getString(PROMPT_KEY) : "books>";
+        delimiter = (rbProperties.containsKey(DELIMITER_KEY)) ? rbProperties.getString(DELIMITER_KEY) : ",";
+        saveFile = (rbProperties.containsKey(SAVE_FILE_KEY)) ? rbProperties.getString(DELIMITER_KEY) : "savefile";
+        endMessage = (rbProperties.containsKey(END_MESSAGE_KEY)) ? rbProperties.getString(END_MESSAGE_KEY) : "bye.";
         return this;
+    }
+
+    public String getMessage(Code code, String... params) {
+
+        // メッセージ取得
+        String msg = rbMessages.getString(code.getCode());
+
+        // 可変項目の置換え
+        for (int i = 0; i < params.length; i++) {
+            msg.replaceFirst("{" + i + "}", params[i]);
+        }
+        return msg;
     }
 }

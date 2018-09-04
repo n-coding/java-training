@@ -10,14 +10,14 @@ public abstract class Command {
         this.name = name;
     }
 
-    public Result execute(String command, String[] argments) {
+    public CommandResult execute(String command, String[] argments) {
         if (command.equals(name)) {
             return executeCommand(command, argments);
         } else if (next != null) {
             return next.execute(command, argments);
         }
         // どのコマンドにも合致しなかった場合
-        Result result = new Result();
+        CommandResult result = new CommandResult();
         result.addMessage("Invalid Command.");
         return result;
     };
@@ -27,6 +27,6 @@ public abstract class Command {
         return next;
     }
 
-    public abstract Result executeCommand(String command, String[] argments);
+    public abstract CommandResult executeCommand(String command, String[] argments);
 
 }

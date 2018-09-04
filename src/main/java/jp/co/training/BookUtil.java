@@ -1,5 +1,7 @@
 package jp.co.training;
 
+import static jp.co.training.Main.*;
+
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,12 +25,12 @@ public class BookUtil {
      * @return
      */
     public static Optional<String> checkLength(String target, int min, int max) {
-        if (target == null) {
-            return Optional.of("the length must be " + min + " or more. but actual is null.");
-        } else if (target.length() < min) {
-            return Optional.of("the length must be " + min + " or more. but actual is " + target.length() + ".");
+        if (target == null || target.length() < min) {
+            return Optional.of(config.getMessage(Code.MIN_LENGTH_UNDER, String.valueOf(min),
+                    target == null ? "null" : String.valueOf(target.length())));
         } else if (target.length() > max) {
-            return Optional.of("the length must be " + max + " or less. but actual is " + target.length() + ".");
+            return Optional.of(config.getMessage(Code.MAX_LENGTH_OVER, String.valueOf(max),
+                    String.valueOf(target.length())));
         }
         return Optional.empty();
     }

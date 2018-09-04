@@ -9,8 +9,8 @@ public final class ExitCommand extends Command {
     }
 
     @Override
-    public Result executeCommand(String command, String[] argments) {
-        Result result = new Result();
+    public CommandResult executeCommand(String command, String[] argments) {
+        CommandResult result = new CommandResult();
         result.addMessage(config.endMessage);
         result.setExit(true);
         return result;

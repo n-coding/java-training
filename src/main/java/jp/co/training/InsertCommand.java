@@ -1,15 +1,6 @@
 package jp.co.training;
 
-import static jp.co.training.Const.*;
-import static jp.co.training.Main.*;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import jp.co.training.dao.BookDao;
 
 public final class InsertCommand extends Command {
 
@@ -18,51 +9,30 @@ public final class InsertCommand extends Command {
     }
 
     @Override
-    public Result executeCommand(String command, String[] argments) {
+    public CommandResult executeCommand(String command, String[] argments) {
 
-        //Bookオブジェクト生成
-        Book book = null;
-        try {
-            book = Book.createBook(argments);
-        } catch (BookException e) {
-            Result result = new Result();
-            result.addMessage(e.getMessage());
-            return result;
+        CommandResult commandResult = new CommandResult();
+
+        // パラメータ数チェック
+        if (argments.length != Book.NUMBER_OF_ITEMS) {
+            commandResult.addMessage("SyntaxError. The number of arguments does not match. expected:"
+                    + Book.NUMBER_OF_ITEMS + " but actual:" + argments.length);
+            return commandResult;
         }
 
-        // 書籍情報のチェック
-        Result result = book.validate();
-        if (!result.getMesages().isEmpty()) {
-            return result;
+        //Bookオブジェクト生成
+        BookResult bookResult = Book.createBook(argments);
+
+        if (bookResult.getStatus() == Status.NG) {
+            commandResult.addMessages(bookResult.getMessages());
+            return commandResult;
         }
 
         //書籍情報の登録
-        return insert(book);
-    }
-
-    private Result insert(Book book) {
-        Result result = new Result();
-        String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
-
-        String output = new BookRecord.Builder()
-                .id(BookUtil.generateID(ID_LENGTH))
-                .book(book)
-                .createUser(config.userName)
-                .createdDate(today)
-                .updateUser(config.userName)
-                .updatedDate(today)
-                .build().toString();
-
-        try (PrintWriter writer = new PrintWriter(
-                Files.newBufferedWriter(Paths.get(config.saveFile), StandardCharsets.UTF_8))) {
-            writer.println(output);
-        } catch (IOException ex) {
-            result.addMessage(config.saveFile + ": cannot open.");
-            result.setExit(true);
-            return result;
-        }
-        result.addMessage("inserted.");
-        return result;
+        Result result = new BookDao().insert(bookResult.getBook());
+        commandResult.addMessages(result.getMessages());
+        commandResult.setStatus(Status.OK);
+        return commandResult;
     }
 
 }

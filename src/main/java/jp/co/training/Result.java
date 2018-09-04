@@ -5,23 +5,27 @@ import java.util.List;
 
 public class Result {
 
-    private boolean exit = false;
-    private final List<String> mesages = new ArrayList<>();
+    private Status status = Status.NG;
 
-    public List<String> getMesages() {
-        return mesages;
+    private final List<String> messages = new ArrayList<>();
+
+    public Status getStatus() {
+        return status;
     }
 
-    public void addMessage(String msg) {
-        mesages.add(msg);
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public boolean isExit() {
-        return exit;
+    public List<String> getMessages() {
+        return messages;
     }
 
-    public void setExit(boolean exit) {
-        this.exit = exit;
+    public void addMessage(String message) {
+        this.messages.add(message);
     }
 
+    public void addMessages(List<String> messages) {
+        this.messages.addAll(messages);
+    }
 }

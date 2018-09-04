@@ -22,7 +22,7 @@ class BookTest {
                     .publisher("WAVE出版")
                     .publicationDate("20180423")
                     .price("1620").build();
-            Result result = book.validate();
+            CommandResult result = book.validate();
             assertFalse(result.isExit());
             assertEquals(1, result.getMesages().size());
             assertEquals("ISBM:the length must be " + MAX_ISBN + " or less. but actual is 14.",

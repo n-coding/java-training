@@ -26,7 +26,7 @@ public final class Main {
                 argments = (String[]) Arrays.stream(argments).map(e -> e.trim()).toArray(String[]::new);
 
                 // コマンド実行
-                Result result = command.execute(inputCommand, argments);
+                CommandResult result = command.execute(inputCommand, argments);
                 outputMessages(result);
                 if (result != null && result.isExit()) {
                     break;
@@ -35,9 +35,9 @@ public final class Main {
         }
     }
 
-    private static void outputMessages(Result result) {
-        if (result != null && result.getMesages().size() > 0) {
-            result.getMesages().stream().forEach(message -> {
+    private static void outputMessages(CommandResult result) {
+        if (result != null && result.getMessages().size() > 0) {
+            result.getMessages().stream().forEach(message -> {
                 System.out.println(message);
             });
         }
