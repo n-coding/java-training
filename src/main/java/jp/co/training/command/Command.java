@@ -1,4 +1,6 @@
-package jp.co.training;
+package jp.co.training.command;
+
+import jp.co.training.Code;
 
 public abstract class Command {
 
@@ -18,9 +20,9 @@ public abstract class Command {
         }
         // どのコマンドにも合致しなかった場合
         CommandResult result = new CommandResult();
-        result.addMessage("Invalid Command.");
+        result.addCode(Code.INVALID_COMMAND);
         return result;
-    };
+    }
 
     public Command setNext(Command next) {
         this.next = next;

@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import jp.co.training.command.Command;
+import jp.co.training.command.CommandResult;
+import jp.co.training.command.ExitCommand;
+import jp.co.training.command.InsertCommand;
+
 public final class Main {
 
     public static Config config;
@@ -15,8 +20,8 @@ public final class Main {
 
         config = new Config().load(args.length > 0 && args[0] != null ? args[0] : CONFIG_FILE);
 
-        Command command = new InsertCommand(INSERT);
-        command.setNext(new ExitCommand(EXIT));
+        Command command = new ExitCommand(INSERT);
+        command.setNext(new InsertCommand(EXIT));
 
         try (Scanner scan = new Scanner(System.in)) {
             while (true) {
@@ -27,7 +32,8 @@ public final class Main {
 
                 // コマンド実行
                 CommandResult result = command.execute(inputCommand, argments);
-                outputMessages(result);
+                //viewerクラスでメッセージ出力をする
+                //                outputMessages(result);
                 if (result != null && result.isExit()) {
                     break;
                 }
@@ -35,11 +41,11 @@ public final class Main {
         }
     }
 
-    private static void outputMessages(CommandResult result) {
-        if (result != null && result.getMessages().size() > 0) {
-            result.getMessages().stream().forEach(message -> {
-                System.out.println(message);
-            });
-        }
-    }
+    //    private static void outputMessages(CommandResult result) {
+    //        if (result != null && result.getMessages().size() > 0) {
+    //            result.getMessages().stream().forEach(message -> {
+    //                System.out.println(message);
+    //            });
+    //        }
+    //    }
 }

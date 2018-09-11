@@ -1,13 +1,12 @@
 package jp.co.training;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.EnumSet;
 
 public class Result {
 
     private Status status = Status.NG;
 
-    private final List<String> messages = new ArrayList<>();
+    private EnumSet<Code> codes = EnumSet.noneOf(Code.class);
 
     public Status getStatus() {
         return status;
@@ -17,15 +16,16 @@ public class Result {
         this.status = status;
     }
 
-    public List<String> getMessages() {
-        return messages;
+    public EnumSet<Code> getCodes() {
+        return codes;
     }
 
-    public void addMessage(String message) {
-        this.messages.add(message);
+    public void addCode(Code code) {
+        codes.add(code);
     }
 
-    public void addMessages(List<String> messages) {
-        this.messages.addAll(messages);
+    public void addCodes(EnumSet<Code> codes) {
+        this.codes.addAll(codes);
     }
+
 }

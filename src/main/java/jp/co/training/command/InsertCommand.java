@@ -1,5 +1,11 @@
-package jp.co.training;
+package jp.co.training.command;
 
+import static jp.co.training.Code.*;
+
+import jp.co.training.Result;
+import jp.co.training.Status;
+import jp.co.training.book.Book;
+import jp.co.training.book.BookResult;
 import jp.co.training.dao.BookDao;
 
 public final class InsertCommand extends Command {
@@ -15,8 +21,7 @@ public final class InsertCommand extends Command {
 
         // パラメータ数チェック
         if (argments.length != Book.NUMBER_OF_ITEMS) {
-            commandResult.addMessage("SyntaxError. The number of arguments does not match. expected:"
-                    + Book.NUMBER_OF_ITEMS + " but actual:" + argments.length);
+            commandResult.addCode(WRONG_NUMBER_OF_ARGUMENTS);
             return commandResult;
         }
 
@@ -24,13 +29,13 @@ public final class InsertCommand extends Command {
         BookResult bookResult = Book.createBook(argments);
 
         if (bookResult.getStatus() == Status.NG) {
-            commandResult.addMessages(bookResult.getMessages());
+            commandResult.addItemCodes(bookResult.getItemCodes());
             return commandResult;
         }
 
         //書籍情報の登録
         Result result = new BookDao().insert(bookResult.getBook());
-        commandResult.addMessages(result.getMessages());
+        commandResult.addCodes(result.getCodes());
         commandResult.setStatus(Status.OK);
         return commandResult;
     }

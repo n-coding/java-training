@@ -52,7 +52,7 @@ public class Config {
         return this;
     }
 
-    public String getMessage(Code code, String... params) {
+    public String getMessage(ItemCode code, String... params) {
 
         // メッセージ取得
         String msg = rbMessages.getString(code.getCode());

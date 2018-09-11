@@ -8,9 +8,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import jp.co.training.Book;
 import jp.co.training.Result;
 import jp.co.training.Status;
+import jp.co.training.book.Book;
+import jp.co.training.Code;
 
 public class BookDao {
 
@@ -22,11 +23,10 @@ public class BookDao {
                 Files.newBufferedWriter(Paths.get(config.saveFile), StandardCharsets.UTF_8))) {
             writer.println(book.toString());
         } catch (IOException ex) {
-            result.addMessage(config.saveFile + ": cannot open.");
+            result.addCode(Code.IO_ERROR);
             return result;
         }
 
-        result.addMessage("inserted.");
         result.setStatus(Status.OK);
         return result;
     }

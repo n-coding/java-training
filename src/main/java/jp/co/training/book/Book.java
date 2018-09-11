@@ -1,10 +1,15 @@
-package jp.co.training;
+package jp.co.training.book;
 
 import static jp.co.training.Const.*;
 import static jp.co.training.Main.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import jp.co.training.Entity;
+import jp.co.training.Status;
+import jp.co.training.command.CommandResult;
+import jp.co.training.util.BookUtil;
 
 public class Book extends Entity {
 
@@ -22,24 +27,25 @@ public class Book extends Entity {
         CommandResult result = new CommandResult();
 
         // isbn
-        BookUtil.checkLength(isbn, 1, MAX_ISBN).ifPresent(msg -> result.addMessage("ISBM:" + msg));
+        BookValidater.checkLength(isbn, 1, MAX_ISBN).ifPresent(code -> result.addItemCode("ISBM", code));
 
         // bookName
-        BookUtil.checkLength(bookName, 1, MAX_BOOK_NAME).ifPresent(msg -> result.addMessage("BOOK_NAME:" + msg));
+        BookValidater.checkLength(bookName, 1, MAX_BOOK_NAME).ifPresent(code -> result.addItemCode("BOOK_NAME", code));
 
         // author
-        BookUtil.checkLength(author, 1, MAX_AUTHOR).ifPresent(msg -> result.addMessage("AUTHOR" + msg));
+        BookValidater.checkLength(author, 1, MAX_AUTHOR).ifPresent(code -> result.addItemCode("AUTHOR", code));
 
         // publisher
-        BookUtil.checkLength(publisher, 1, MAX_PUBLISHER).ifPresent(msg -> result.addMessage("PUBLISHER:" + msg));
+        BookValidater.checkLength(publisher, 1, MAX_PUBLISHER)
+                .ifPresent(code -> result.addItemCode("PUBLISHER", code));
 
         // price
-        BookUtil.checkLength(price, 1, MAX_PRICE).ifPresent(msg -> result.addMessage("PRICE:" + msg));
-        BookUtil.checkNumber(price).ifPresent(msg -> result.addMessage("PRICE:" + msg));
+        BookValidater.checkLength(price, 1, MAX_PRICE).ifPresent(code -> result.addItemCode("PRICE", code));
+        BookValidater.checkNumber(price).ifPresent(code -> result.addItemCode("PRICE", code));
 
         // publicationDate
-        BookUtil.checkDatePattern(publicationDate, DATE_PATTERN)
-                .ifPresent(msg -> result.addMessage("PUBLICATION_DATE:" + msg));
+        BookValidater.checkDatePattern(publicationDate, DATE_PATTERN)
+                .ifPresent(code -> result.addItemCode("PUBLICATION_DATE", code));
 
         return result;
     }
@@ -96,28 +102,30 @@ public class Book extends Entity {
         //各項目のバリデーション
 
         // isbn
-        BookUtil.checkLength(argments[NUM_ISBN], 1, MAX_ISBN).ifPresent(msg -> result.addMessage("ISBM:" + msg));
+        BookValidater.checkLength(argments[NUM_ISBN], 1, MAX_ISBN).ifPresent(code -> result.addCode("ISBM", code));
 
         // bookName
-        BookUtil.checkLength(argments[NUM_BOOK_NAME], 1, MAX_BOOK_NAME)
-                .ifPresent(msg -> result.addMessage("BOOK_NAME:" + msg));
+        BookValidater.checkLength(argments[NUM_BOOK_NAME], 1, MAX_BOOK_NAME)
+                .ifPresent(code -> result.addCode("BOOK_NAME", code));
 
         // author
-        BookUtil.checkLength(argments[NUM_AUTHOR], 1, MAX_AUTHOR).ifPresent(msg -> result.addMessage("AUTHOR" + msg));
+        BookValidater.checkLength(argments[NUM_AUTHOR], 1, MAX_AUTHOR)
+                .ifPresent(code -> result.addCode("AUTHOR", code));
 
         // publisher
-        BookUtil.checkLength(argments[NUM_PUBLISHER], 1, MAX_PUBLISHER)
-                .ifPresent(msg -> result.addMessage("PUBLISHER:" + msg));
+        BookValidater.checkLength(argments[NUM_PUBLISHER], 1, MAX_PUBLISHER)
+                .ifPresent(code -> result.addCode("PUBLISHER", code));
 
         // price
-        BookUtil.checkLength(argments[NUM_PRICE], 1, MAX_PRICE).ifPresent(msg -> result.addMessage("PRICE:" + msg));
-        BookUtil.checkNumber(argments[NUM_PRICE]).ifPresent(msg -> result.addMessage("PRICE:" + msg));
+        BookValidater.checkLength(argments[NUM_PRICE], 1, MAX_PRICE)
+                .ifPresent(code -> result.addCode("PRICE", code));
+        BookValidater.checkNumber(argments[NUM_PRICE]).ifPresent(code -> result.addCode("PRICE", code));
 
         // publicationDate
-        BookUtil.checkDatePattern(argments[NUM_PUBLICATION_DATE], DATE_PATTERN)
-                .ifPresent(msg -> result.addMessage("PUBLICATION_DATE:" + msg));
+        BookValidater.checkDatePattern(argments[NUM_PUBLICATION_DATE], DATE_PATTERN)
+                .ifPresent(code -> result.addCode("PUBLICATION_DATE", code));
 
-        if (!result.getMessages().isEmpty()) {
+        if (!result.getItemCodes().isEmpty()) {
             return result;
         }
 

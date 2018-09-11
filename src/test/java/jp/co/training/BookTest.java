@@ -7,6 +7,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import jp.co.training.book.Book;
+import jp.co.training.command.CommandResult;
+
 class BookTest {
 
     @Nested
