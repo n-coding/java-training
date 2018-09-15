@@ -35,6 +35,7 @@ public final class Main {
                 // コマンド実行
                 CommandResult result = command.execute(inputCommand, argments);
 
+                //viewerクラスでメッセージ出力をする
                 if (result.getStatus() == Status.OK) {
                     viewer.standardMessages(result.getCommandName());
                 } else {
@@ -42,8 +43,6 @@ public final class Main {
                     viewer.errorMessages(result.getItemCodes());
                 }
 
-                //viewerクラスでメッセージ出力をする
-                //                outputMessages(result);
                 if (result != null && result.isExit()) {
                     break;
                 }
