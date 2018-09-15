@@ -1,5 +1,7 @@
 package jp.co.training.command;
 
+import static jp.co.training.Const.*;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -13,7 +15,7 @@ public class UpdateCommand extends Command {
 
     @Override
     public CommandResult executeCommand(String command, String[] argments) {
-        CommandResult result = new CommandResult();
+        CommandResult result = new CommandResult(UPDATE);
         String suffix = ".tmp" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
 
         Book updateBook = null;

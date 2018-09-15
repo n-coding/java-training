@@ -4,7 +4,9 @@ public final class Const {
 
     public static final String CONFIG_FILE = "resource";
     public static final String INSERT = "insert";
+    public static final String UPDATE = "update";
     public static final String EXIT = "exit";
+    public static final String INVALID = "invalid";
     public static final int MAX_ISBN = 13;
     public static final int MAX_BOOK_NAME = 50;
     public static final int MAX_AUTHOR = 30;

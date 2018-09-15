@@ -1,6 +1,6 @@
 package jp.co.training.command;
 
-import jp.co.training.Code;
+import static jp.co.training.Const.*;
 
 public abstract class Command {
 
@@ -19,8 +19,8 @@ public abstract class Command {
             return next.execute(command, argments);
         }
         // どのコマンドにも合致しなかった場合
-        CommandResult result = new CommandResult();
-        result.addCode(Code.INVALID_COMMAND);
+        CommandResult result = new CommandResult(INVALID);
+        result.addCode(CommandCode.INVALID_COMMAND);
         return result;
     }
 

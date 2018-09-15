@@ -1,6 +1,6 @@
-package jp.co.training.book;
+package jp.co.training.validate;
 
-import static jp.co.training.ItemCode.*;
+import static jp.co.training.book.ItemCode.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,11 +8,11 @@ import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import jp.co.training.ItemCode;
+import jp.co.training.book.ItemCode;
 
-public class BookValidater {
+public class ItemValidater {
 
-    private BookValidater() {
+    private ItemValidater() {
     }
 
     /**

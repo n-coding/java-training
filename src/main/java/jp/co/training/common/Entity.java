@@ -1,4 +1,4 @@
-package jp.co.training;
+package jp.co.training.common;
 
 public abstract class Entity {
 
@@ -22,5 +22,7 @@ public abstract class Entity {
     public String getUpdatedDate() {
         return updatedDate;
     }
+
+    public abstract String encode();
 
 }

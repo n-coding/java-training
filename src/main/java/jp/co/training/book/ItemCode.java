@@ -1,6 +1,12 @@
-package jp.co.training;
+package jp.co.training.book;
 
-public enum ItemCode {
+import jp.co.training.common.Code;
+
+/**
+ * 項目ごとのコード
+ *
+ */
+public enum ItemCode implements Code {
 
     MAX_LENGTH_OVER("E101"), MIN_LENGTH_UNDER("E102"),
 
@@ -12,6 +18,7 @@ public enum ItemCode {
         this.code = code;
     }
 
+    @Override
     public String getCode() {
         return code;
     }

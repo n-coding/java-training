@@ -1,4 +1,4 @@
-package jp.co.training;
+package jp.co.training.common;
 
 public enum Status {
 

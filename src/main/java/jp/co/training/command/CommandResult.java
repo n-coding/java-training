@@ -1,17 +1,27 @@
 package jp.co.training.command;
 
-import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
-import jp.co.training.ItemCode;
-import jp.co.training.Result;
+import jp.co.training.book.ItemCode;
+import jp.co.training.common.Code;
+import jp.co.training.common.Result;
 
 public class CommandResult extends Result {
 
     private boolean exit = false;
 
-    private Map<String, EnumSet<ItemCode>> itemCodes = new HashMap<>();
+    private final String commandName;
+
+    private Map<String, Set<ItemCode>> itemCodes = new HashMap<>();
+
+    private Set<Code> codes = new HashSet<>();
+
+    public CommandResult(String commandName) {
+        this.commandName = commandName;
+    }
 
     public boolean isExit() {
         return exit;
@@ -21,19 +31,39 @@ public class CommandResult extends Result {
         this.exit = exit;
     }
 
+    public String getCommandName() {
+        return commandName;
+    }
+
+    public Map<String, Set<ItemCode>> getItemCodes() {
+        return itemCodes;
+    }
+
     public void addItemCode(String key, ItemCode itemCode) {
         if (itemCodes.get(key) == null) {
-            itemCodes.put(key, EnumSet.noneOf(ItemCode.class));
+            itemCodes.put(key, new HashSet<>());
         }
         itemCodes.get(key).add(itemCode);
     }
 
-    public void addItemCodes(Map<String, EnumSet<ItemCode>> itemCodes) {
-        for (Map.Entry<String, EnumSet<ItemCode>> e : itemCodes.entrySet()) {
+    public void addItemCodes(Map<String, Set<ItemCode>> itemCodes) {
+        for (Map.Entry<String, Set<ItemCode>> e : itemCodes.entrySet()) {
             for (ItemCode code : e.getValue()) {
                 addItemCode(e.getKey(), code);
             }
         }
+    }
+
+    public Set<Code> getCodes() {
+        return codes;
+    }
+
+    public void addCode(Code code) {
+        codes.add(code);
+    }
+
+    public void addCodes(Set<Code> codes) {
+        this.codes.addAll(codes);
     }
 
 }

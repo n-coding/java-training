@@ -6,10 +6,10 @@ import static jp.co.training.Main.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import jp.co.training.Entity;
-import jp.co.training.Status;
-import jp.co.training.command.CommandResult;
+import jp.co.training.common.Entity;
+import jp.co.training.common.Status;
 import jp.co.training.util.BookUtil;
+import jp.co.training.validate.ItemValidater;
 
 public class Book extends Entity {
 
@@ -22,33 +22,6 @@ public class Book extends Entity {
     private String publisher;
     private String publicationDate;
     private String price;
-
-    public CommandResult validate() {
-        CommandResult result = new CommandResult();
-
-        // isbn
-        BookValidater.checkLength(isbn, 1, MAX_ISBN).ifPresent(code -> result.addItemCode("ISBM", code));
-
-        // bookName
-        BookValidater.checkLength(bookName, 1, MAX_BOOK_NAME).ifPresent(code -> result.addItemCode("BOOK_NAME", code));
-
-        // author
-        BookValidater.checkLength(author, 1, MAX_AUTHOR).ifPresent(code -> result.addItemCode("AUTHOR", code));
-
-        // publisher
-        BookValidater.checkLength(publisher, 1, MAX_PUBLISHER)
-                .ifPresent(code -> result.addItemCode("PUBLISHER", code));
-
-        // price
-        BookValidater.checkLength(price, 1, MAX_PRICE).ifPresent(code -> result.addItemCode("PRICE", code));
-        BookValidater.checkNumber(price).ifPresent(code -> result.addItemCode("PRICE", code));
-
-        // publicationDate
-        BookValidater.checkDatePattern(publicationDate, DATE_PATTERN)
-                .ifPresent(code -> result.addItemCode("PUBLICATION_DATE", code));
-
-        return result;
-    }
 
     public String getIsbn() {
         return isbn;
@@ -102,27 +75,27 @@ public class Book extends Entity {
         //各項目のバリデーション
 
         // isbn
-        BookValidater.checkLength(argments[NUM_ISBN], 1, MAX_ISBN).ifPresent(code -> result.addCode("ISBM", code));
+        ItemValidater.checkLength(argments[NUM_ISBN], 1, MAX_ISBN).ifPresent(code -> result.addCode("ISBM", code));
 
         // bookName
-        BookValidater.checkLength(argments[NUM_BOOK_NAME], 1, MAX_BOOK_NAME)
+        ItemValidater.checkLength(argments[NUM_BOOK_NAME], 1, MAX_BOOK_NAME)
                 .ifPresent(code -> result.addCode("BOOK_NAME", code));
 
         // author
-        BookValidater.checkLength(argments[NUM_AUTHOR], 1, MAX_AUTHOR)
+        ItemValidater.checkLength(argments[NUM_AUTHOR], 1, MAX_AUTHOR)
                 .ifPresent(code -> result.addCode("AUTHOR", code));
 
         // publisher
-        BookValidater.checkLength(argments[NUM_PUBLISHER], 1, MAX_PUBLISHER)
+        ItemValidater.checkLength(argments[NUM_PUBLISHER], 1, MAX_PUBLISHER)
                 .ifPresent(code -> result.addCode("PUBLISHER", code));
 
         // price
-        BookValidater.checkLength(argments[NUM_PRICE], 1, MAX_PRICE)
+        ItemValidater.checkLength(argments[NUM_PRICE], 1, MAX_PRICE)
                 .ifPresent(code -> result.addCode("PRICE", code));
-        BookValidater.checkNumber(argments[NUM_PRICE]).ifPresent(code -> result.addCode("PRICE", code));
+        ItemValidater.checkNumber(argments[NUM_PRICE]).ifPresent(code -> result.addCode("PRICE", code));
 
         // publicationDate
-        BookValidater.checkDatePattern(argments[NUM_PUBLICATION_DATE], DATE_PATTERN)
+        ItemValidater.checkDatePattern(argments[NUM_PUBLICATION_DATE], DATE_PATTERN)
                 .ifPresent(code -> result.addCode("PUBLICATION_DATE", code));
 
         if (!result.getItemCodes().isEmpty()) {
@@ -226,7 +199,7 @@ public class Book extends Entity {
     }
 
     @Override
-    public String toString() {
+    public String encode() {
         return String.join(config.delimiter,
                 this.id,
                 this.isbn,

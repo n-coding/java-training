@@ -1,16 +1,16 @@
 package jp.co.training.book;
 
-import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
-import jp.co.training.ItemCode;
-import jp.co.training.Result;
+import jp.co.training.common.Result;
 
 public class BookResult extends Result {
 
     private Book book;
 
-    private Map<String, EnumSet<ItemCode>> itemCodes;
+    private Map<String, Set<ItemCode>> itemCodes;
 
     public Book getBook() {
         return book;
@@ -20,13 +20,13 @@ public class BookResult extends Result {
         this.book = book;
     }
 
-    public Map<String, EnumSet<ItemCode>> getItemCodes() {
+    public Map<String, Set<ItemCode>> getItemCodes() {
         return itemCodes;
     }
 
     public void addCode(String key, ItemCode code) {
         if (itemCodes.get(key) == null) {
-            itemCodes.put(key, EnumSet.noneOf(ItemCode.class));
+            itemCodes.put(key, new HashSet<>());
         }
         itemCodes.get(key).add(code);
     }

@@ -3,6 +3,8 @@ package jp.co.training;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import jp.co.training.book.ItemCode;
+
 public class Config {
 
     // 外部ファイルによる設定が可能な定数
