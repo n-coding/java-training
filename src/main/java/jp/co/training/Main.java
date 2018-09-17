@@ -4,14 +4,12 @@ import static jp.co.training.Const.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import jp.co.training.command.Command;
 import jp.co.training.command.CommandResult;
 import jp.co.training.command.ExitCommand;
 import jp.co.training.command.InsertCommand;
-import jp.co.training.common.Status;
 
 public final class Main {
 
@@ -29,19 +27,15 @@ public final class Main {
             while (true) {
                 viewer.promptMessages();
                 String inputCommand = scan.next().toLowerCase();
-                String[] argments = scan.nextLine().split(config.delimiter);
-                argments = (String[]) Arrays.stream(argments).map(e -> e.trim()).toArray(String[]::new);
+                //引数部の生成方法がinsert用になっている。updateでも使用できるように修正。
+
+                String argments = scan.nextLine().trim();
 
                 // コマンド実行
                 CommandResult result = command.execute(inputCommand, argments);
 
-                //viewerクラスでメッセージ出力をする
-                if (result.getStatus() == Status.OK) {
-                    viewer.standardMessages(result.getCommandName());
-                } else {
-                    viewer.errorMessages(result.getCodes());
-                    viewer.errorMessages(result.getItemCodes());
-                }
+                //実行結果を出力
+                viewer.commandMessages(result);
 
                 if (result != null && result.isExit()) {
                     break;

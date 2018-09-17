@@ -8,15 +8,10 @@ import jp.co.training.book.ItemCode;
 public class Config {
 
     // 外部ファイルによる設定が可能な定数
-    public String prompt;
-    public String endMessage;
     public String delimiter;
     public String saveFile;
     public String userName;
 
-    // 外部ファイルの設定ファイルのキー
-    private static final String PROMPT_KEY = "prompt";
-    private static final String END_MESSAGE_KEY = "end.message";
     private static final String DELIMITER_KEY = "delimiter";
     private static final String SAVE_FILE_KEY = "save.file";
     private static final String USER_NAME_KEY = "user.name";
@@ -47,10 +42,8 @@ public class Config {
         }
 
         userName = rbProperties.getString(USER_NAME_KEY);
-        prompt = (rbProperties.containsKey(PROMPT_KEY)) ? rbProperties.getString(PROMPT_KEY) : "books>";
         delimiter = (rbProperties.containsKey(DELIMITER_KEY)) ? rbProperties.getString(DELIMITER_KEY) : ",";
         saveFile = (rbProperties.containsKey(SAVE_FILE_KEY)) ? rbProperties.getString(DELIMITER_KEY) : "savefile";
-        endMessage = (rbProperties.containsKey(END_MESSAGE_KEY)) ? rbProperties.getString(END_MESSAGE_KEY) : "bye.";
         return this;
     }
 
