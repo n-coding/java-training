@@ -2,6 +2,7 @@ package jp.co.training.command;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,6 +19,16 @@ public class CommandResult extends Result {
     private Map<String, Set<ItemCode>> itemCodes = new HashMap<>();
 
     private Set<Code> codes = new HashSet<>();
+
+    private List<List<String>> records;
+
+    public List<List<String>> getRecords() {
+        return records;
+    }
+
+    public void addRecord(List<String> record) {
+        this.records.add(record);
+    }
 
     public CommandResult(String commandName) {
         this.commandName = commandName;

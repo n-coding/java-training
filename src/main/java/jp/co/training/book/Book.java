@@ -5,6 +5,8 @@ import static jp.co.training.Main.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import jp.co.training.common.Entity;
 import jp.co.training.common.Status;
@@ -212,5 +214,33 @@ public class Book extends Entity {
                 this.createdDate,
                 this.updateUser,
                 this.updatedDate);
+    }
+
+    public static Book decode(String params) {
+        return null;//TODO Bookを返却するように修正
+    }
+
+    public List<String> output(String[] cols) {
+
+        List<String> list = new ArrayList<>();
+        //TODO 作成中
+        for (int i = 0; i < cols.length; i++) {
+            switch (Book.BookCol.valueOf(cols[i])) {
+            case ID:
+                list.add(this.id);
+                break;
+            case ISBN:
+                list.add(this.isbn);
+                break;
+            default:
+
+            }
+        }
+
+        return list;
+    }
+
+    public enum BookCol {
+        ID, ISBN, BOOK_NAME, AUTHOR, PUBLISHER, PUBLICATION_DATE, PRICE, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE
     }
 }

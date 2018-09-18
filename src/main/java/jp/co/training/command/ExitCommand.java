@@ -9,7 +9,7 @@ public final class ExitCommand extends Command {
     }
 
     @Override
-    public CommandResult executeCommand(String command, String argments) {
+    public CommandResult executeCommand(String argments) {
         CommandResult result = new CommandResult(EXIT);
         //TODO 以下の処理はviewerクラスに任せる
         //        result.addMessage(config.endMessage);

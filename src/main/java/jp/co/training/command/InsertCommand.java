@@ -19,7 +19,7 @@ public final class InsertCommand extends Command {
     }
 
     @Override
-    public CommandResult executeCommand(String command, String argments) {
+    public CommandResult executeCommand(String argments) {
 
         CommandResult commandResult = new CommandResult(INSERT);
 

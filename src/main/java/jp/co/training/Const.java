@@ -6,6 +6,8 @@ public final class Const {
     public static final String INSERT = "insert";
     public static final String UPDATE = "update";
     public static final String SET = "set";
+    public static final String SELECT = "select";
+    public static final String ORDERBY = "orderby";
     public static final String EXIT = "exit";
     public static final String INVALID = "invalid";
     public static final int MAX_ISBN = 13;

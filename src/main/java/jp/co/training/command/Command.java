@@ -14,7 +14,7 @@ public abstract class Command {
 
     public CommandResult execute(String command, String argments) {
         if (command.equals(name)) {
-            return executeCommand(command, argments);
+            return executeCommand(argments);
         } else if (next != null) {
             return next.execute(command, argments);
         }
@@ -29,6 +29,6 @@ public abstract class Command {
         return next;
     }
 
-    public abstract CommandResult executeCommand(String command, String argments);
+    public abstract CommandResult executeCommand(String argments);
 
 }

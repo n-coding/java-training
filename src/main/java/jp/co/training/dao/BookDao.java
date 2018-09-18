@@ -2,10 +2,12 @@ package jp.co.training.dao;
 
 import static jp.co.training.Main.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
@@ -28,10 +30,6 @@ public class BookDao {
 
         result.setStatus(Status.OK);
         return result;
-    }
-
-    public DaoResult select() {
-        return null;
     }
 
     public DaoResult update(String id, Map<String, String> updateParams) {
@@ -81,6 +79,22 @@ public class BookDao {
         //        return result;
 
         return null;
+    }
+
+    public SelectDaoResult<Book> select() {
+        SelectDaoResult<Book> result = new SelectDaoResult<>();
+        Path saveFilePath = Paths.get(config.saveFile);
+        try (BufferedReader reader = Files.newBufferedReader(saveFilePath)) {
+
+            String recordLine;
+            while ((recordLine = reader.readLine()) != null) {
+                result.add(Book.decode(recordLine));
+            }
+        } catch (IOException e) {
+            result.addCode(DaoCode.IO_ERROR);
+            return result;
+        }
+        return result;
     }
 
 }

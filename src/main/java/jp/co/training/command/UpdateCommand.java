@@ -18,7 +18,7 @@ public class UpdateCommand extends Command {
     }
 
     @Override
-    public CommandResult executeCommand(String command, String argments) {
+    public CommandResult executeCommand(String argments) {
         CommandResult commandResult = new CommandResult(UPDATE);
 
         //argmentsを解析
