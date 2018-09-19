@@ -27,8 +27,6 @@ public final class Main {
             while (true) {
                 viewer.promptMessages();
                 String inputCommand = scan.next().toLowerCase();
-                //引数部の生成方法がinsert用になっている。updateでも使用できるように修正。
-
                 String argments = scan.nextLine().trim();
 
                 // コマンド実行
